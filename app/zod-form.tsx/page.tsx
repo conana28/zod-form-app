@@ -6,6 +6,8 @@ import * as z from "zod";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
 
+import { countries } from "@/components/countries";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -55,7 +57,8 @@ const FormSchema = z.object({
         message: "Cost must be in the format $$$.cc",
       }
     ),
-  country: z.string(),
+  // use a type assertion to tell TypeScript that countries is a non-empty array:
+  country: z.enum(countries as [string, ...string[]]),
 });
 
 interface FormProps {
@@ -173,16 +176,12 @@ export const ZodForm: React.FC<FormProps> = ({ initialData, setFormType }) => {
                             <SelectValue placeholder="Select a country" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
-                          <SelectItem value="New Zealand">
-                            New Zealand
-                          </SelectItem>
-                          <SelectItem value="France">France</SelectItem>
-                          <SelectItem value="Spain">Spain</SelectItem>
-                          <SelectItem value="Italy">Italy</SelectItem>
-                          <SelectItem value="Australia">Australia</SelectItem>
-                          <SelectItem value="Germany">Germany</SelectItem>
-                          <SelectItem value="Greece">Greece</SelectItem>
+                        <SelectContent className="overflow-y-auto max-h-[15rem]">
+                          {countries.map((country) => (
+                            <SelectItem key={country} value={country}>
+                              {country}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                       <FormMessage />

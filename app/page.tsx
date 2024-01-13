@@ -10,7 +10,7 @@ export default function Home() {
     consume: new Date(),
     cost: undefined,
     shelf: undefined,
-    country: "Italy",
+    country: "New Zealand",
   };
   const [formType, setFormType] = useState("");
 
